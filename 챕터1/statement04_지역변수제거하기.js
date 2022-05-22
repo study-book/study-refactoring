@@ -2,9 +2,15 @@ function statement(invoice, plays) {
     let totalAmount = 0;
     let volumeCredits = 0;
     let result = `청구 내역 (고객명: ${invoice.customer})\n`;
-    const format = new Intl.NumberFormat("en-US",
-        { style: "currency", currency: "USD",
-            minimumFractionDigits: 2 }).format;
+
+    // 임시 변수를 함수로 바꾸고 의미에 맞게 이름 바꾸기
+    const usd = (aNumber) => {
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2
+        }).format(aNumber / 100);
+    };
 
     // 임시 변수를 질의 함수로 바꾸기
     const playFor = (aPerformance) => {
@@ -36,25 +42,30 @@ function statement(invoice, plays) {
         return result;
     };
 
-    for (let perf of invoice.performances) {
+    const volumeCreditsFor = (aPerformance) => {
         // 포인트를 적립한다.
-        volumeCredits += Math.max(perf.audience - 30, 0);
+        let volumeCredits = 0;
+        volumeCredits += Math.max(aPerformance.audience - 30, 0);
         // 희극 관객 5명마다 추가 포인트를 제공한다.
-        // 변수 인라인하기
-        if (playFor(perf).type === "comedy") {
-            volumeCredits += Math.floor(perf.audience / 5);
+        if (playFor(aPerformance).type === "comedy") {
+            volumeCredits += Math.floor(aPerformance.audience / 5);
         }
+        return volumeCredits;
+    };
+
+    for (let perf of invoice.performances) {
+        volumeCredits += volumeCreditsFor(perf);
 
         // 청구 내역을 출력한다.
         // 변수 인라인하기
-        result += ` ${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${
+        result += ` ${playFor(perf).name}: ${usd(amountFor(perf) / 100)} (${
             perf.audience
         }석)\n`;
         // 변수 인라인하기
         totalAmount += amountFor(perf);
     }
 
-    result += `총액: ${format(totalAmount / 100)}\n`;
+    result += `총액: ${usd(totalAmount / 100)}\n`;
     result += `적립 포인트: ${volumeCredits} 점\n`;
 
     return result;
