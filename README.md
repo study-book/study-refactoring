@@ -1,6 +1,6 @@
 # study-refactoring
 
-NaverWebtoon Content Platform Tech 홍영준 디자인패턴 & 리팩터링 스터디
+NaverWebtoon Contents Platform Tech 홍영준 디자인패턴 & 리팩터링 스터디
 
 # 스터디 교재
 교재 : 리팩터링 2판 - 마틴 파울러
