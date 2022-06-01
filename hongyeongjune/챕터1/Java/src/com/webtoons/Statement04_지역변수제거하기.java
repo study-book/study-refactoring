@@ -19,7 +19,7 @@ public class Statement04_지역변수제거하기 {
             totalAmount += amountFor(performance, plays);
         }
 
-        result += "총액: " + (totalAmount/100.0) + "\n";
+        result += "총액: " + usd(totalAmount/100.0) + "\n";
         result += "적립 포인트: " + volumeCredits + "점\n";
 
         return result;
