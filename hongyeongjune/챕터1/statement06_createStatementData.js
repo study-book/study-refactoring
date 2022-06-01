@@ -42,7 +42,7 @@ export default function createStatementData(invoice, plays) {
     const enrichPerformance = (aPerformance) => {
         const result = Object.assign({}, aPerformance);
         result.play = playFor(result);
-        result.play = amountFor(result);
+        result.amount = amountFor(result);
         result.volumeCredits = volumeCreditsFor(result)
         return result;
     }
