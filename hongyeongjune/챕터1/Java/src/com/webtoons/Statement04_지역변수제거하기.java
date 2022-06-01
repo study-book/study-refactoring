@@ -11,12 +11,11 @@ public class Statement04_지역변수제거하기 {
         int totalAmount = 0;
         int volumeCredits = 0;
         String result = "청구 내역 (고객명: " + invoices.getCustomer() + ")\n";
-        String format = Currency.getInstance(Locale.US).getSymbol();
 
         for (Performance performance : invoices.getPerformances()) {
             volumeCredits += volumeCreditsFor(performance, plays);
 
-            result += playFor(performance, plays).getName() + ": " + (amountFor(performance, plays)/100.0) + " " + format + " " + performance.getAudience() + "석\n";
+            result += playFor(performance, plays).getName() + ": " + usd((amountFor(performance, plays)/100.0)) + " " + performance.getAudience() + "석\n";
             totalAmount += amountFor(performance, plays);
         }
 
@@ -26,6 +25,9 @@ public class Statement04_지역변수제거하기 {
         return result;
     }
 
+    public String usd(Double price) {
+        return price + Currency.getInstance(Locale.US).getSymbol();
+    }
     /**
      * volumeCredits 지역변수 제거하기
      * @return volumeCredits 지역변수 계산한 값
